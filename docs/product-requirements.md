@@ -20,6 +20,7 @@
 - 全キー1u、基本キーピッチ19.05mm
 - 列スタッガー・キー回転は使用しない
 - 追加の1uキーはSpace専用ではなく汎用キーとして扱う
+- **基板・プレート・ケースの外形は長方形にせず、キー領域(+nice!view/nice!nano領域)に沿って切り欠く**。キーが入らない領域(R4×C3–C6相当の下部など)には基板を設けない(2026-09-08確定。詳細は [key-layout.md](key-layout.md))
 
 ### スイッチ
 
@@ -83,17 +84,17 @@
 | # | 項目 | 決定方法 | 記録先 |
 | --- | --- | --- | --- |
 | 1 | 正式な製品名 | ユーザーが決定 | 本ドキュメント |
-| 2 | 左右別PCB か リバーシブルPCB か | 比較検討しADRで提案 | [decisions/](decisions/) |
+| 2 | ~~左右別PCB か リバーシブルPCB か~~ | **確定: 左右別PCB**([decisions/0001](decisions/0001-separate-left-right-pcbs.md)) | 確定済み |
 | 3 | PCB厚(1.6mm標準候補 / 1.2mm) | ソケット互換性・剛性の確認後 | [decisions/](decisions/) |
-| 4 | マトリクス構成(行列の割り方) | GPIO本数と配線性の検討後 | [electrical.md](electrical.md) / ADR |
-| 5 | GPIO割り当て | マトリクス構成確定後 | [electrical.md](electrical.md) / ADR |
+| 4 | ~~マトリクス構成~~ | **確定: 物理一致の5行×7列**([decisions/0002](decisions/0002-matrix-and-gpio.md)) | 確定済み |
+| 5 | ~~GPIO割り当て~~ | **確定**([decisions/0002](decisions/0002-matrix-and-gpio.md)。PCB配線でRow/Col個別入れ替えの可能性のみ残る) | 確定済み |
 | 6 | バッテリーの寸法と容量 | ケース内寸・アンテナ禁止領域の確定後 | ADR |
 | 7 | JSTコネクタの具体的な型番・極性 | 実部品と公式資料の確認後 | ADR |
 | 8 | スライドスイッチの型番 | 実部品と公式資料の確認後 | ADR |
 | 9 | プレート・ケースの材質と固定方法 | 機構検討後 | [mechanical.md](mechanical.md) / ADR |
 | 10 | nice!view / nice!nano ソケットの具体的な部品 | 実部品確認後 | ADR |
 | 11 | ダイオードの型番・実装形態(SMD/スルーホール) | 手実装性の検討後 | [electrical.md](electrical.md) |
-| 12 | 正確な外形寸法(nice!view寸法・ケース余白に依存) | 後続フェーズ | [mechanical.md](mechanical.md) |
+| 12 | 正確な外形寸法(ケース余白に依存。nice!view寸法は14×36mmで確認済み) | 後続フェーズ | [mechanical.md](mechanical.md) |
 
 ## 4. 対象外(スコープ外)
 
