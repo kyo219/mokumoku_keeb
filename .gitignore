@@ -1,0 +1,45 @@
+# === KiCad ===
+# 自動保存・バックアップ・キャッシュは無視する
+# (.kicad_pro / .kicad_sch / .kicad_pcb およびプロジェクト固有の
+#  シンボル・フットプリントは追跡対象なので無視しない)
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*-backups/
+*.bak
+*.bck
+*.kicad_prl
+_autosave-*
+*.lck
+*.sch-bak
+fp-info-cache
+~*.lck
+\#auto_saved_files\#
+
+# KiCadの一時netlist・キャッシュ
+*.net
+*.cache.lib
+*.rescue-backup/
+
+# === CAD一時ファイル ===
+*.FCBak
+*.FCStd1
+*.stl.bak
+
+# === ZMK / ビルド生成物 ===
+firmware/**/build/
+*.uf2
+!production/**/*.uf2
+
+# === OS生成ファイル ===
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# === エディタ ===
+*.swp
+*~
+.vscode/
+.idea/
+
+# 注意: production/ 配下の凍結済み製造データ(Gerber等)は追跡対象。
+# 無視ルールを追加する際は production/ を巻き込まないこと。
