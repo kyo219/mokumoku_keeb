@@ -1,13 +1,14 @@
 # hardware/kicad/
 
-KiCadの**編集可能なソース**を置くディレクトリ。回路図・PCBは**まだ作成していない**(初期整備フェーズ)。
+KiCadの**編集可能なソース**を置くディレクトリ。KiCad 10.0系を使用(`~/Applications/KiCad`)。
 
-## 置くもの
+## 構成
 
-- KiCadプロジェクト(`.kicad_pro` / `.kicad_sch` / `.kicad_pcb`)— 追跡対象
-- `symbols/` — プロジェクト固有のシンボル
-- `footprints/` — プロジェクト固有のフットプリント(`.pretty`)
-- `3dmodels/` — 3Dモデル
+- `left/` — **左基板プロジェクト(正)**。回路図はRev.Aドラフトあり(`scripts/generate_left_schematic.py` で生成、ERC 0違反・ネットリスト自動照合済み)。PCBは未着手
+- `symbols/` — プロジェクト固有シンボル(`mokumoku_keeb.kicad_sym`: nice_nano_v2 = 公式ピン配置図と照合済み)
+- `footprints/` — プロジェクト固有フットプリント(`.pretty`、まだなし)
+- `3dmodels/` — 3Dモデル(まだなし)
+- 右基板は左のミラーとして後続フェーズで生成(ADR-0001)
 
 ## 置かないもの
 
