@@ -43,20 +43,51 @@
   - SCK = P0.20(D3)、MOSI = P0.17(D2)、CS = pro_micro 1(D1=P0.06、active-high)、MISO = P0.25(ダミー、ヘッダー外)
 - Helix / Corne 等のshield定義が同リポジトリに存在し、split構成の実装例として参照可能
 
+### Kailh MXホットスワップソケット PG151101S11(確認日: 2026-09-08)
+
+出典: Kailh(Kaihua Electronics)Product Specification KH-PS1607-10 Rev.B([keyboardio/keyswitch_documentationミラー](https://github.com/keyboardio/keyswitch_documentation/blob/master/datasheets/Kailh/PG151101S11-MX-Socket.pdf)。通称CPG151101S11)
+
+- 本体高さ(PCB裏面からの突出): **1.85±0.1mm**、本体外形 10.90×5.89mm、厚み方向断面 3.05mm(端子部含む)
+- スイッチピン受け穴: Ø3.00mm×2(水平間隔6.35mm、垂直オフセット2.54mm)— MXピン位置と一致
+- **推奨PCBレイアウトは基板厚1.6mm(単面)前提**と明記 → 1.2mm化の検証課題の根拠
+- 定格: 12V/10mA max(信号用)、挿抜寿命100サイクル、手はんだ350℃/3秒以内
+
+### Alps Alpine スライドスイッチ SSSS811101(確認日: 2026-09-08)
+
+出典: [Alps Alpine公式製品ページ](https://tech.alpsalpine.com/e/products/detail/SSSS811101/)
+
+- 単極・2ポジション、表面実装(リフロー)、本体 6.7×2.6×1.4mm、アクチュエータ高1.1mm、トラベル1.5mm
+- **定格 0.3A 5V DC max** / 50μA 3V DC min、動作温度 -40〜+85℃
+- ⚠️ 流通サイトの寸法表記(7.7×5×1.9mm等)と公式値に差異あり(端子込み外形の可能性)。**公式PDF図面での照合をフットプリント作成時に必須とする**
+
+### JST PHコネクタ(確認日: 2026-09-08)
+
+出典: [JST公式データシート ePH.pdf](https://www.jst-mfg.com/product/pdf/eng/ePH.pdf)、[DigiKey製品ページ](https://www.digikey.com/en/products/detail/jst-sales-america-inc/S2B-PH-SM4-TB/926655)
+
+- PHシリーズ: 2.0mmピッチ、定格2A/100V AC・DC、-25〜+85℃
+- S2B-PH-SM4-TB(LF)(SN): 2ピン・表面実装・横型(サイドエントリー)
+- ⚠️ **極性は規格で定まらない**。購入バッテリーの実物極性確認が必須(ADR-0003)
+
+### 1N4148W ダイオード(確認日: 2026-09-08)
+
+出典: [Diodes Inc. 製品ページ](https://www.diodes.com/part/view/1N4148W)、[MCC データシート](https://www.mccsemi.com/pdf/Products/1N4148W(SOD-123).pdf)ほか複数メーカー
+
+- 小信号高速スイッチングダイオード、SOD-123、VR 75V / VRRM 100V、IF 150mA、trr約4ns
+- 複数メーカーが製造するセカンドソース定番品
+
 ## 今後確認すべき資料(未確認)
 
 | # | 資料 | 確認したい内容 | 状態 |
 | --- | --- | --- | --- |
-| 1 | nice!nanoアンテナkeep-out | 公式推奨寸法(公式docsに記載なし → 参考設計・nRF52840モジュール一般則から決めてADR化) | 未確認 |
+| 1 | nice!nanoアンテナkeep-out実例 | 実績あるnice!nanoボード(FelixKeeb等)のkeep-out寸法実例(暫定方針はADR-0007) | 未確認 |
 | 2 | ZMK公式ドキュメント(zmk.dev) | split詳細設定、peripheral電池残量のcentral集約表示のサポート状況、省電力設定 | 未確認 |
 | 3 | Cherry MX(または互換)公式寸法資料 | プレート開口、プレート〜PCB距離、ピン位置(3/5ピン)、センターポスト径 | 未確認 |
-| 4 | Kailh MXホットスワップソケット寸法資料 | フットプリント、ソケット高さ、対応PCB厚(1.2mm可否) | 未確認 |
-| 5 | JSTコネクタのデータシート(型番未定。PH系候補) | 型番、極性、フットプリント、定格 | 未確認 |
-| 6 | スライドスイッチのデータシート(型番未定) | ON/OFF明確性、ノブ突出量、定格、フットプリント | 未確認 |
-| 7 | LiPoバッテリー仕様(型番未定) | 寸法、容量、保護回路、コネクタ極性 | 未確認 |
-| 8 | ダイオードのデータシート(1N4148W等) | パッケージ、フットプリント | 未確認 |
-| 9 | nice!nano/nice!view用ソケット・ピンヘッダ | 低背ソケット/コンスルーの高さ、積層可否 | 未確認 |
-| 10 | P0.09/P0.10(D10/D16)のNFCピン扱い | nice!nanoボード定義でGPIO化済みかの確認(nfct-pins-as-gpios) | 未確認 |
+| 4 | Alps SSSS811101 公式PDF図面 | フットプリント寸法・ノブ形状(公式ページ数値は確認済み。流通表記との差異解消) | 未確認 |
+| 5 | コンスルー(Mac8)公式図面 | 型番、高さ(2.5/3.5mm)、対応基板厚、推奨穴径(ADR-0006の確定条件) | 未確認 |
+| 6 | Mill-Max 315系ソケット図面 | 代替ソケットの高さ・穴径(コンスルー不適合時の代替) | 未確認 |
+| 7 | LiPoバッテリー仕様(型番未定) | 寸法、容量(≤500mAh方針、ADR-0004)、保護回路、コネクタ極性 | 未確認 |
+| 8 | nice!view用5ピン低背ソケットの図面 | 高さ(積層クリアランス計算後に選定) | 未確認 |
+| 9 | P0.09/P0.10(D10/D16)のNFCピン扱い | nice!nanoボード定義でGPIO化済みかの確認(nfct-pins-as-gpios) | 未確認 |
 
 ## 参考にする公開設計(参考のみ。無断複製禁止)
 
