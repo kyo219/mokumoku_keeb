@@ -91,7 +91,7 @@
 | 6 | バッテリーの寸法と容量 | **500mAh以下方針は確定**([decisions/0004](decisions/0004-power-slide-switch-alps.md))。具体型番はケース内寸確定後 | ADR |
 | 7 | JSTコネクタ | **型番確定: JST PH / S2B-PH-SM4-TB**([decisions/0003](decisions/0003-battery-connector-jst-ph.md))。**極性のみ実バッテリー確認後** | 極性のみ未確定 |
 | 8 | ~~スライドスイッチの型番~~ | **確定: Alps SSSS811101**([decisions/0004](decisions/0004-power-slide-switch-alps.md)。BOOST充電は使用禁止) | 確定済み |
-| 9 | プレート・ケースの材質と固定方法 | 機構検討後 | [mechanical.md](mechanical.md) / ADR |
+| 9 | プレート・ケースの材質と固定方法 | **ケースはフル樹脂削り出し方針で確定**([decisions/0008](decisions/0008-case-material-resin.md)、POM/PC候補)。具体材質・固定方法・プレート材質は未確定 | [mechanical.md](mechanical.md) / ADR |
 | 10 | nice!view / nice!nano ソケット | **方式確定: コンスルー第一候補**([decisions/0006](decisions/0006-mcu-display-sockets.md))。型番・高さは図面確認後 | 型番のみ未確定 |
 | 11 | ~~ダイオードの型番・実装形態~~ | **確定: 1N4148W(SOD-123)**([decisions/0005](decisions/0005-matrix-diode-1n4148w.md)) | 確定済み |
 | 12 | 正確な外形寸法(ケース余白に依存。nice!view寸法は14×36mmで確認済み) | 後続フェーズ | [mechanical.md](mechanical.md) |

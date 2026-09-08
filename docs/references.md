@@ -68,6 +68,23 @@
 - S2B-PH-SM4-TB(LF)(SN): 2ピン・表面実装・横型(サイドエントリー)
 - ⚠️ **極性は規格で定まらない**。購入バッテリーの実物極性確認が必須(ADR-0003)
 
+### Cherry MXスイッチ 公式データシート(確認日: 2026-09-08)
+
+出典: Cherry MX Series(MX1A)Keyswitchデータシート([Octopartミラー](https://datasheet.octopart.com/MX1A-11NW-Cherry-datasheet-34676.pdf))
+
+- **プレート(Metal Frame)開口: 14.0±0.05mm角(0.551±0.002in)、角R0.3max、プレート厚1.5±0.1mm(0.06±0.004in)指定** → 1.5mmプレート方針の公式裏付け
+- PCBレイアウト(グリッド1.27mm): センターポスト穴 Ø4.0(0.157±0.004in)中央、固定ピン穴 Ø1.7(0.067±0.002in)を(±5.08, 0)、端子穴 Ø1.5(0.059±0.002in)
+- PCBマウント図のPCB厚表記は 0.06±0.006in(≈1.5mm)→ **1.2mm板厚はCherryの想定外**(ソケット保持力検証の追加根拠)
+- 本体 15.6mm角、キャップなし高さ11.6mm、トラベル4mm、定格 12V/10mA
+- KiCad標準 `Button_Switch_Keyboard:SW_Cherry_MX_1.00u_PCB` の座標(端子(2.54,-5.08)/(-3.81,-2.54)、固定ピン±5.08)と一致することを確認
+
+### JST PH SMTサイドエントリー推奨パターン(確認日: 2026-09-08)
+
+出典: 上記ePH.pdf p.2(SMT type / Side entry type)
+
+- 信号パッドピッチ 2.0±0.05mm、補強(MP)パッド 1.5±0.1 × 3.4±0.1mm
+- KiCad標準 `Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal` と照合し一致(同フットプリントはePH.pdfを出典として明記)
+
 ### 1N4148W ダイオード(確認日: 2026-09-08)
 
 出典: [Diodes Inc. 製品ページ](https://www.diodes.com/part/view/1N4148W)、[MCC データシート](https://www.mccsemi.com/pdf/Products/1N4148W(SOD-123).pdf)ほか複数メーカー
