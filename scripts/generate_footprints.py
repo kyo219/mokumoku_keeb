@@ -55,8 +55,9 @@ def rect(x1, y1, x2, y2, layer, width=0.1):
 
 
 def text(kind, s, x, y, layer, hide=False, size=1.0):
+    mirror = " (justify mirror)" if layer.startswith("B.") else ""
     return (f'  (fp_text {kind} "{s}" (at {x} {y} 0) (layer "{layer}"){" (hide yes)" if hide else ""}\n'
-            f'    (effects (font (size {size} {size}) (thickness 0.15))) (uuid "{u()}"))')
+            f'    (effects (font (size {size} {size}) (thickness 0.15)){mirror}) (uuid "{u()}"))')
 
 
 def footprint(name, descr, attrs, items):
@@ -75,7 +76,7 @@ def footprint(name, descr, attrs, items):
 
 def hotswap():
     items = [
-        text("reference", "REF**", 0, -8.9, "F.SilkS"),
+        text("reference", "REF**", 0, -6.6, "F.Fab"),
         text("value", "SW_MX_HotSwap", 0, 8.9, "F.Fab"),
         # switch body (15.6 sq) on F.Fab, courtyard slightly larger
         rect(-7.8, -7.8, 7.8, 7.8, "F.Fab"),
@@ -107,7 +108,7 @@ def hotswap():
 
 def nice_nano():
     items = [
-        text("reference", "REF**", 0, -18.5, "F.SilkS"),
+        text("reference", "REF**", 0, -18.3, "F.Fab"),
         text("value", "nice_nano_v2", 0, 18.5, "F.Fab"),
     ]
     for i in range(12):

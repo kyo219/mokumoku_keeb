@@ -144,7 +144,18 @@ def next_ref(prefix):
     return f"{prefix}{ref_counters[prefix]}"
 
 
-def place(lib_id, pos, rot, ref, value, pins, extra_props=""):
+# footprint assignment per reference prefix (docs: footprints/README.md)
+FOOTPRINTS = {
+    "SW_MX": "mokumoku_keeb:SW_MX_HotSwap_Kailh_PG151101S11_1u",
+    "D": "Diode_SMD:D_SOD-123",
+    "U1": "mokumoku_keeb:nice_nano_v2",
+    "J1": "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal",
+    "J2": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+    # SW29 (SSSS811101) / SW30 (reset): no verified footprint yet -> empty
+}
+
+
+def place(lib_id, pos, rot, ref, value, pins, extra_props="", footprint=""):
     pin_lines = "\n".join(f'    (pin "{n}" (uuid "{u()}"))' for n in sorted(pins, key=lambda s: (len(s), s)))
     body.append(f'''  (symbol (lib_id "{lib_id}") (at {pos[0]} {pos[1]} {rot}) (unit 1)
     (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -153,7 +164,7 @@ def place(lib_id, pos, rot, ref, value, pins, extra_props=""):
       (effects (font (size 1.27 1.27))))
     (property "Value" "{value}" (at {pos[0]} {pos[1] + 5.08} 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "" (at {pos[0]} {pos[1]} 0)
+    (property "Footprint" "{footprint}" (at {pos[0]} {pos[1]} 0)
       (effects (font (size 1.27 1.27)) (hide yes)))
     (property "Datasheet" "" (at {pos[0]} {pos[1]} 0)
       (effects (font (size 1.27 1.27)) (hide yes)))
@@ -219,7 +230,7 @@ def main():
     for (r, c) in KEYS:
         cx, cy = X0 + c * PITCH_X, Y0 + r * PITCH_Y
         ref = next_ref("SW")
-        place("Switch:SW_Push", (cx, cy), 0, ref, "MX", sw_pins)
+        place("Switch:SW_Push", (cx, cy), 0, ref, "MX", sw_pins, footprint=FOOTPRINTS["SW_MX"])
         p1 = pin_abs((cx, cy), 0, sw_pins["1"])
         p2 = pin_abs((cx, cy), 0, sw_pins["2"])
         glabel(f"COL{c}", p1, 180)
@@ -229,7 +240,7 @@ def main():
         anode_target = (p2[0], p2[1] + 2.54)
         dx, dy = rotated(d_pins["2"], drot)
         dpos = (round(anode_target[0] - dx, 4), round(anode_target[1] - dy, 4))
-        place("Device:D", dpos, drot, dref, "1N4148W", d_pins)
+        place("Device:D", dpos, drot, dref, "1N4148W", d_pins, footprint=FOOTPRINTS["D"])
         wire(p2, anode_target)
         kath = pin_abs(dpos, drot, d_pins["1"])
         row_pt = (kath[0], kath[1] + 2.54)
@@ -239,7 +250,7 @@ def main():
     # --- nice!nano ---
     nano_pins = libs["mokumoku_keeb:nice_nano_v2"][1]
     npos = (285.75, 190.5)
-    place("mokumoku_keeb:nice_nano_v2", npos, 0, "U1", "nice!nano v2", nano_pins)
+    place("mokumoku_keeb:nice_nano_v2", npos, 0, "U1", "nice!nano v2", nano_pins, footprint=FOOTPRINTS["U1"])
     for num, net in NANO_NETS.items():
         pt = pin_abs(npos, 0, nano_pins[str(num)])
         left_side = nano_pins[str(num)][0] < 0
@@ -254,7 +265,7 @@ def main():
     # --- battery connector + slide switch (support section) ---
     jst_pins = libs["Connector_Generic:Conn_01x02"][1]
     jpos = (63.5, 215.9)
-    place("Connector_Generic:Conn_01x02", jpos, 0, "J1", "JST_PH_S2B-PH-SM4-TB", jst_pins)
+    place("Connector_Generic:Conn_01x02", jpos, 0, "J1", "JST_PH_S2B-PH-SM4-TB", jst_pins, footprint=FOOTPRINTS["J1"])
     j1 = pin_abs(jpos, 0, jst_pins["1"])
     j2 = pin_abs(jpos, 0, jst_pins["2"])
     # NOTE: polarity TBD (ADR-0003) - pin1=BAT+ assumed until battery verified
@@ -284,7 +295,7 @@ def main():
     # --- nice!view connector (pin order per official pinout: MOSI SCK VCC GND CS) ---
     nv_pins = libs["Connector_Generic:Conn_01x05"][1]
     vpos = (215.9, 215.9)
-    place("Connector_Generic:Conn_01x05", vpos, 0, "J2", "nice_view", nv_pins)
+    place("Connector_Generic:Conn_01x05", vpos, 0, "J2", "nice_view", nv_pins, footprint=FOOTPRINTS["J2"])
     nv_nets = {"1": "NV_MOSI", "2": "NV_SCK", "3": "VCC", "4": "GND", "5": "NV_CS"}
     for num, net in nv_nets.items():
         glabel(net, pin_abs(vpos, 0, nv_pins[num]), 180)
@@ -326,6 +337,11 @@ def main():
     pro_path = OUT_DIR / f"{PROJECT}.kicad_pro"
     if not pro_path.exists():
         pro_path.write_text(pro)
+    (OUT_DIR / "fp-lib-table").write_text(
+        '(fp_lib_table (version 7)\n'
+        '  (lib (name "mokumoku_keeb")(type "KiCad")'
+        '(uri "${KIPRJMOD}/../footprints/mokumoku_keeb.pretty")(options "")(descr "project footprints"))\n)\n'
+    )
     (OUT_DIR / "sym-lib-table").write_text(
         '(sym_lib_table (version 7)\n'
         '  (lib (name "mokumoku_keeb")(type "KiCad")'
